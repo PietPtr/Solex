@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Audio.h"
+#include "Spaceship.h"
+#include "Planet.h"
 
 using namespace sf;
 
@@ -15,6 +17,7 @@ class Game
 
         void loadAudio(std::vector<std::string> fileNames);
         void loadTextures();
+        void loadPlanets();
 
         int randint(int low, int high, int seed);
         int randint(int low, int high);
@@ -34,6 +37,7 @@ class Game
 
         std::vector<std::string> audioFileNames {};
         std::vector<Texture> textures {};
+        std::vector<Planet> planets {};
 
         std::vector<Audio*> sfx;
 };

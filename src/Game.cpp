@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <dirent.h>
+#include <fstream>
 #include "Game.h"
+#include "Planet.h"
 
 using namespace sf;
 
@@ -13,6 +15,7 @@ void Game::initialize()
 {
     loadAudio(audioFileNames);
     loadTextures();
+    loadPlanets();
 }
 
 void Game::update()
@@ -42,6 +45,13 @@ void Game::update()
 
     dt = clock.restart();
     totalTime += dt;
+
+    for (int i = 0; i < planets.size(); i++)
+    {
+        std::cout << i << ": ";
+        planets.at(i).update();
+        std::cout << "\n\n";
+    }
 
     frame++;
 }
@@ -98,6 +108,41 @@ void Game::loadTextures()
         textures.push_back(loadedTexture);
         textures.at(textures.size() - 1).setRepeated(true);
     }
+    std::cout << std::endl;
+}
+
+void Game::loadPlanets()
+{
+    PlanetData sunData;
+    sunData.mass = 1.98855e30;
+    sunData.aphelion = 0;
+    sunData.perihelion = 0;
+    sunData.radius = 696342;
+    sunData.orbitalSpeed = 0;
+    sunData.x = 0;
+    sunData.y = 0;
+    planets.push_back(Planet(sunData));
+
+    PlanetData mercuryData;
+    mercuryData.mass = 3.3011e23;
+    mercuryData.aphelion = 69816900;
+    mercuryData.perihelion = 46001200;
+    mercuryData.radius = 2439.7;
+    mercuryData.orbitalSpeed = 47.362;
+    mercuryData.x = mercuryData.aphelion;
+    mercuryData.y = 0;
+    planets.push_back(Planet(mercuryData));
+
+    PlanetData marsData;
+    marsData.mass = 6.4171e23;
+    marsData.aphelion = 249200000;
+    marsData.perihelion = 206.7e6;
+    marsData.radius = 3389;
+    marsData.orbitalSpeed = 24.077;
+    marsData.x = marsData.aphelion;
+    marsData.y = 0;
+    planets.push_back(Planet(marsData));
+
 }
 
 void Game::loadAudio(std::vector<std::string> audioFileNames)
@@ -108,3 +153,78 @@ void Game::loadAudio(std::vector<std::string> audioFileNames)
         sfx.back()->init(audioFileNames[i]);
     }
 }
+
+/*void Game::loadPlanets()
+{
+    DIR *dir;
+    struct dirent *ent;
+    dir = opendir("planets/");
+
+    std::vector<std::string> planetNames;
+
+    if (dir != NULL)
+    {
+        while ((ent = readdir(dir)) != NULL)
+        {
+            if (std::string(ent->d_name) != "." && std::string(ent->d_name) != "..")
+            {
+                planetNames.push_back(std::string(ent->d_name));
+            }
+        }
+        closedir(dir);
+    }
+    else
+    {
+        window->close();
+    }
+
+    std::sort(planetNames.begin(), planetNames.end());
+
+    for (int i = 0; i < planetNames.size(); i++)
+    {
+        std::cout << planetNames.at(i) << "\n";
+
+        std::string filename = "planets/" + planetNames.at(i);
+        std::ifstream file(filename);
+
+        std::vector<std::string> rawData;
+
+        while(!file.eof())
+        {
+            std::string line;
+            std::getline(file, line);
+            if (line.length() >= 1)
+            {
+                rawData.push_back(line);
+            }
+        }
+
+        PlanetData data;
+        data.mass = std::stoi(rawData.at(0), nullptr);
+        data.aphelion = std::stoi(rawData.at(1), nullptr);
+        data.perihelion = std::stoi(rawData.at(2), nullptr);
+        data.radius = std::stoi(rawData.at(3), nullptr);
+        data.orbitalSpeed = std::stoi(rawData.at(4), nullptr);
+        data.x = std::stoi(rawData.at(5), nullptr);
+        data.y = std::stoi(rawData.at(6), nullptr);
+
+        planets.push_back(Planet(data));
+
+        file.close();
+
+    }
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
