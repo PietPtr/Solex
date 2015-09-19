@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <dirent.h>
 #include "Game.h"
 
 using namespace sf;
@@ -11,6 +12,7 @@ Game::Game(RenderWindow* _window)
 void Game::initialize()
 {
     loadAudio(audioFileNames);
+    loadTextures();
 }
 
 void Game::update()
@@ -27,6 +29,15 @@ void Game::update()
                 window->close();
             }
         }
+        if (event.type == Event::Resized)
+        {
+            windowWidth = event.size.width;
+            windowHeight = event.size.height;
+        }
+        if (event.type == Event::LostFocus)
+            focus = false;
+        if (event.type == Event::GainedFocus)
+            focus = true;
     }
 
     dt = clock.restart();
@@ -39,12 +50,54 @@ void Game::draw()
 {
     window->clear();
 
+    view.setSize(Vector2f(windowWidth, windowHeight));
+    window->setView(view);
+
     window->display();
 }
 
 bool Game::isWindowOpen()
 {
     return window->isOpen();
+}
+
+void Game::loadTextures()
+{
+    DIR *dir;
+    struct dirent *ent;
+    dir = opendir("textures/");
+
+    std::vector<std::string> textureNames;
+
+    if (dir != NULL)
+    {
+        while ((ent = readdir(dir)) != NULL)
+        {
+            if (std::string(ent->d_name) != "." && std::string(ent->d_name) != "..")
+            {
+                textureNames.push_back(std::string(ent->d_name));
+            }
+        }
+        closedir(dir);
+    }
+    else
+    {
+        window->close();
+    }
+
+    std::sort(textureNames.begin(), textureNames.end());
+
+    for (int i = 0; i < textureNames.size(); i++)
+    {
+        Texture loadedTexture;
+        if (!loadedTexture.loadFromFile("textures/" + textureNames[i]))
+            window->close();
+
+        std::cout << "Loaded texture " << "textures/" + textureNames[i] << "\n";
+
+        textures.push_back(loadedTexture);
+        textures.at(textures.size() - 1).setRepeated(true);
+    }
 }
 
 void Game::loadAudio(std::vector<std::string> audioFileNames)
@@ -54,19 +107,4 @@ void Game::loadAudio(std::vector<std::string> audioFileNames)
         sfx.push_back(new Audio());
         sfx.back()->init(audioFileNames[i]);
     }
-}
-
-int Game::randint(int low, int high, int seed)
-{
-    srand(seed);
-    int value = rand() % (high + 1 - low) + low;
-    return value;
-}
-
-int Game::randint(int low, int high)
-{
-    int value = rand() % (high + 1 - low) + low;
-    srand(totalTime.asMicroseconds() * value * rand());
-
-    return value;
 }
