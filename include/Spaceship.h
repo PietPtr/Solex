@@ -1,6 +1,7 @@
 #ifndef SPACESHIP_H
 #define SPACESHIP_H
 #include <SFML/Graphics.hpp>
+#include "include.h"
 
 using namespace sf;
 
@@ -8,18 +9,19 @@ class Spaceship
 {
     public:
         Spaceship();
-        void update();
-        void draw();
+        void update(Time dt, std::vector<GravData>* gravData);
+        void draw(DrawData drawData);
+        Vector2i getPosition() { return position; }
+        void setPosition(Vector2i val) { position = val;};
     protected:
     private:
-
-        double rotation;
-        double angularMomentum;
-        Vector2f position;
-        Vector2f momentum;
+        double mass = 12600; // kg
+        double rotation = 0; // degrees
+        double angularMomentum = 0; // degrees per second
+        Vector2i position; // global coordinates (km)
+        Vector2f velocity; // meters per second
 
         std::vector<Vector2f> gravForces;
-
 };
 
 #endif // SPACESHIP_H

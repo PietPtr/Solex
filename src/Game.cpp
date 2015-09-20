@@ -100,7 +100,10 @@ void Game::update()
     }
 
 
-    sun.update(simtime);
+    sun.update(simtime, &gravData);
+    if (frame == 1)
+        player.setPosition(sun.getPlanets()->at(2).getPosition() - Vector2i(0, 10e7));
+    player.update(dt, &gravData);
 
     frame++;
 }
@@ -120,6 +123,7 @@ void Game::draw()
     window->setView(view);
 
     sun.draw(drawData);
+    player.draw(drawData);
 
     window->display();
 }

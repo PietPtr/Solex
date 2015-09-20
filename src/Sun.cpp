@@ -10,11 +10,25 @@ Sun::Sun()
     //ctor
 }
 
-void Sun::update(double simtime)
+void Sun::update(double simtime, std::vector<GravData>* gravData)
 {
+    gravData->clear();
+
+    GravData sunGravData;
+    sunGravData.mass = mass;
+    sunGravData.x = 0;
+    sunGravData.y = 0;
+    gravData->push_back(sunGravData);
+
     for (int i = 0; i < planets.size(); i++)
     {
         planets.at(i).update(simtime);
+
+        GravData planetGravitationData;
+        planetGravitationData.mass = planets.at(i).getMass();
+        planetGravitationData.x = planets.at(i).getPosition().x;
+        planetGravitationData.y = planets.at(i).getPosition().y;
+        gravData->push_back(planetGravitationData);
     }
 }
 
@@ -34,6 +48,7 @@ void Sun::draw(DrawData drawData)
     temp.setOrigin(Vector2f(r, r));
     temp.setFillColor(Color(200, 200, 0));
     window->draw(temp);
+
 
     for (int i = 0; i < planets.size(); i++)
     {

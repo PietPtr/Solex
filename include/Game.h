@@ -4,6 +4,7 @@
 #include "Spaceship.h"
 #include "Planet.h"
 #include "Sun.h"
+#include "include.h"
 
 using namespace sf;
 
@@ -43,9 +44,12 @@ class Game
         std::vector<Texture> textures {};
 
         Sun sun;
+        std::vector<GravData> gravData;
+
 
         std::vector<Audio*> sfx;
 
+        Spaceship player;
 
         //debug
 
