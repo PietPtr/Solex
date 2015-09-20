@@ -31,6 +31,10 @@ void Game::update()
             {
                 window->close();
             }
+            if (event.key.code == Keyboard::Up)
+                timeSpeed++;
+            if (event.key.code == Keyboard::Down)
+                timeSpeed--;
         }
         if (event.type == Event::Resized)
         {
@@ -45,12 +49,12 @@ void Game::update()
 
     dt = clock.restart();
     totalTime += dt;
+    simtime += dt.asSeconds() * timeSpeed;
 
     for (int i = 0; i < planets.size(); i++)
     {
         std::cout << i << ": ";
-        planets.at(i).update();
-        std::cout << "\n\n";
+        planets.at(i).update(simtime);
     }
 
     frame++;
@@ -58,10 +62,16 @@ void Game::update()
 
 void Game::draw()
 {
-    window->clear();
+    //window->clear();
 
     view.setSize(Vector2f(windowWidth, windowHeight));
+    view.setCenter(Vector2f(0, 0));
     window->setView(view);
+
+    for (int i = 0; i < planets.size(); i++)
+    {
+        planets.at(i).draw(window);
+    }
 
     window->display();
 }
@@ -113,34 +123,54 @@ void Game::loadTextures()
 
 void Game::loadPlanets()
 {
-    PlanetData sunData;
+    /*PlanetData sunData;
     sunData.mass = 1.98855e30;
     sunData.aphelion = 0;
     sunData.perihelion = 0;
     sunData.radius = 696342;
     sunData.orbitalSpeed = 0;
-    sunData.x = 0;
-    sunData.y = 0;
-    planets.push_back(Planet(sunData));
+    sunData.orbitCenter = Vector2i(0, 0);
+    sunData.orbitalPeriod = 1;
+    planets.push_back(Planet(sunData));*/
 
     PlanetData mercuryData;
     mercuryData.mass = 3.3011e23;
     mercuryData.aphelion = 69816900;
     mercuryData.perihelion = 46001200;
     mercuryData.radius = 2439.7;
-    mercuryData.orbitalSpeed = 47.362;
-    mercuryData.x = mercuryData.aphelion;
-    mercuryData.y = 0;
+    mercuryData.orbitalSpeed = 47362;
+    mercuryData.orbitCenter = Vector2i(9540000, 2650000);
+    mercuryData.orbitalPeriod = 60;
     planets.push_back(Planet(mercuryData));
+
+    PlanetData venusData;
+    venusData.mass = 4.8675e24;
+    venusData.aphelion = 108939000;
+    venusData.perihelion = 107477000;
+    venusData.radius = 6051.8;
+    venusData.orbitalSpeed = 35020;
+    venusData.orbitCenter = Vector2i(0, 1590000);
+    venusData.orbitalPeriod = 164;
+    planets.push_back(Planet(venusData));
+
+    PlanetData earthData;
+    earthData.mass = 5.972e24;
+    earthData.aphelion = 151930000;
+    earthData.perihelion = 147095000;
+    earthData.radius = 6371;
+    earthData.orbitalSpeed = 29780;
+    earthData.orbitCenter = Vector2i(0, 0);
+    earthData.orbitalPeriod = 266;
+    planets.push_back(Planet(earthData));
 
     PlanetData marsData;
     marsData.mass = 6.4171e23;
-    marsData.aphelion = 249200000;
-    marsData.perihelion = 206.7e6;
+    marsData.aphelion =   249200000;
+    marsData.perihelion = 206700000;
     marsData.radius = 3389;
-    marsData.orbitalSpeed = 24.077;
-    marsData.x = marsData.aphelion;
-    marsData.y = 0;
+    marsData.orbitalSpeed = 24077;
+    marsData.orbitCenter = Vector2i(-9540000, 19080000);
+    marsData.orbitalPeriod = 500;
     planets.push_back(Planet(marsData));
 
 }

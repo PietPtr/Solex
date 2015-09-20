@@ -7,8 +7,8 @@ int main()
 {
     srand(time(NULL));
 
-    int windowWidth = 1280;
-    int windowHeigth = 720;
+    int windowWidth = 1600;
+    int windowHeigth = 900;
     RenderWindow window(VideoMode(windowWidth, windowHeigth), "Float");
     window.setVerticalSyncEnabled(true);
 

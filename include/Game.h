@@ -32,6 +32,8 @@ class Game
 
         Time dt;
         Time totalTime;
+        double simtime;
+        int timeSpeed = 1;
         Clock clock;
         int frame = 0;
 
