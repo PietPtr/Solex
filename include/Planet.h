@@ -16,6 +16,7 @@ class Planet
         void setData(PlanetData data);
         void update(double simtime);
         void draw(RenderWindow* window, double zoom, Vector2i viewPos);
+        Vector2i getPosition() { return Vector2i(x, y); }
     protected:
     private:                       // Mars example values
         double mass = 0;           // 641,710,000,000,000,000,000,000 kg

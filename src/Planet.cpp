@@ -65,6 +65,7 @@ void Planet::draw(RenderWindow* window, double zoom, Vector2i viewPos)
         planet.setPosition(drawPosition);
         planet.setRadius(drawSize);
         planet.setFillColor(color);
+        planet.setOrigin(radius / zoom, radius / zoom);
         window->draw(planet);
     }
     //std::cout << x / zoom << " " << y / zoom << ", r: " << drawSize << "\n";

@@ -12,6 +12,7 @@ class Sun
         void loadPlanets();
         void update(double simtime);
         void draw(DrawData drawData);
+        std::vector<Planet>* getPlanets() { return &planets; }
     protected:
     private:
         double mass = 1.98855e30;

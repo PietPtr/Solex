@@ -63,6 +63,14 @@ void Game::update()
                 SPEED /= 10;
                 std::cout << SPEED << "speed\n";
             }
+            if (event.key.code == Keyboard::Num1)
+                viewPos = sun.getPlanets()->at(0).getPosition();
+            if (event.key.code == Keyboard::Num2)
+                viewPos = sun.getPlanets()->at(1).getPosition();
+            if (event.key.code == Keyboard::Num3)
+                viewPos = sun.getPlanets()->at(2).getPosition();
+            if (event.key.code == Keyboard::Num4)
+                viewPos = sun.getPlanets()->at(3).getPosition();
         }
         if (event.type == Event::Resized)
         {
