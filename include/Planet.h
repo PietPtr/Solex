@@ -1,25 +1,13 @@
 #ifndef PLANET_H
 #define PLANET_H
 #include <SFML/Graphics.hpp>
-const double pi = 3.1415926535897;
+#include "include.h"
 
 using namespace sf;
 
 int randint(int low, int high);
 
-struct PlanetData
-{
-    double mass;
-    int aphelion;
-    int perihelion;
-    double radius;
-    double orbitalSpeed;
-    Vector2i orbitCenter;
-    int orbitalPeriod;
-    int x;
-    int y;
-    Color color;
-};
+
 
 class Planet
 {
@@ -27,7 +15,7 @@ class Planet
         Planet(PlanetData data);
         void setData(PlanetData data);
         void update(double simtime);
-        void draw(RenderWindow* window, double zoom);
+        void draw(RenderWindow* window, double zoom, Vector2i viewPos);
     protected:
     private:                       // Mars example values
         double mass = 0;           // 641,710,000,000,000,000,000,000 kg

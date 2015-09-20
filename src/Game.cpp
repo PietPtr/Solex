@@ -2,6 +2,7 @@
 #include <dirent.h>
 #include <fstream>
 #include "Game.h"
+#include "include.h"
 #include "Planet.h"
 
 using namespace sf;
@@ -20,6 +21,7 @@ void Game::initialize()
 
 void Game::update()
 {
+
     Event event;
     while (window->pollEvent(event))
     {
@@ -32,18 +34,34 @@ void Game::update()
                 window->close();
             }
             if (event.key.code == Keyboard::Up)
+            {
                 timeSpeed*=2;
+                std::cout << timeSpeed << " time speed\n";
+            }
             if (event.key.code == Keyboard::Down)
+            {
                 timeSpeed/=2;
+                std::cout << timeSpeed << " time speed\n";
+            }
             if (event.key.code == (Keyboard::X))
             {
-                std::cout << zoom << "\n";
                 zoom *= 2;
+                std::cout << zoom << " zoom\n";
             }
             if (event.key.code == (Keyboard::Z))
             {
-                std::cout << zoom << "\n";
                 zoom /= 2;
+                std::cout << zoom << " zoom\n";
+            }
+            if (event.key.code == Keyboard::R)
+            {
+                SPEED *= 10;
+                std::cout << SPEED << " speed\n";
+            }
+            if (event.key.code == Keyboard::F)
+            {
+                SPEED /= 10;
+                std::cout << SPEED << "speed\n";
             }
         }
         if (event.type == Event::Resized)
@@ -63,7 +81,6 @@ void Game::update()
 
     if (focus)
     {
-        float SPEED = 600000;
         if (Keyboard::isKeyPressed(Keyboard::W))
             viewPos.y -= SPEED * dt.asSeconds();
         if (Keyboard::isKeyPressed(Keyboard::A))
@@ -72,11 +89,6 @@ void Game::update()
             viewPos.y += SPEED * dt.asSeconds();
         if (Keyboard::isKeyPressed(Keyboard::D))
             viewPos.x += SPEED * dt.asSeconds();
-
-        if (Keyboard::isKeyPressed(Keyboard::E))
-            viewPos.y -= 60000 * dt.asSeconds();
-        if (Keyboard::isKeyPressed(Keyboard::C))
-            viewPos.y += 60000 * dt.asSeconds();
     }
 
 
@@ -87,6 +99,11 @@ void Game::update()
 
 void Game::draw()
 {
+    DrawData drawData;
+    drawData.window = window;
+    drawData.zoom = zoom;
+    drawData.viewPos = viewPos;
+
     if (!Keyboard::isKeyPressed(Keyboard::C))
         window->clear();
 
@@ -94,7 +111,7 @@ void Game::draw()
     view.setCenter(Vector2f(0, 0));
     window->setView(view);
 
-    sun.draw(window, zoom);
+    sun.draw(drawData);
 
     window->display();
 }

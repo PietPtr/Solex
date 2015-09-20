@@ -42,9 +42,10 @@ int randint(int low, int high)
 
 Vector2f globalToDrawCoords(Vector2i viewPos, Vector2i global, double zoom)
 {
-    Vector2i difference = viewPos - global;
+    Vector2i difference = global - viewPos;
     Vector2f drawCoords;
     drawCoords.x = difference.x / zoom;
     drawCoords.y = difference.y / zoom;
 
+    return drawCoords;
 }

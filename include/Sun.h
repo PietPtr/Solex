@@ -11,7 +11,7 @@ class Sun
         Sun();
         void loadPlanets();
         void update(double simtime);
-        void draw(RenderWindow* window, double zoom);
+        void draw(DrawData drawData);
     protected:
     private:
         double mass = 1.98855e30;

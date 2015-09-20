@@ -1,8 +1,11 @@
 #include <iostream>
 #include "Planet.h"
+#include "include.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+
+Vector2f globalToDrawCoords(Vector2i viewPos, Vector2i global, double zoom);
 
 Planet::Planet(PlanetData data)
 {
@@ -38,14 +41,16 @@ void Planet::update(double simtime)
     y = orbitCenter.y + amplitude * sin(angularFrequency * simtime);
 }
 
-void Planet::draw(RenderWindow* window, double zoom)
+void Planet::draw(RenderWindow* window, double zoom, Vector2i viewPos)
 {
     double drawSize = radius / zoom; //draw size in pixels
+
+    Vector2f drawPosition = globalToDrawCoords(viewPos, Vector2i(x, y), zoom);
 
     if ((int)drawSize <= 1)
     {
         RectangleShape planet;
-        planet.setPosition(Vector2f(x / zoom, y / zoom));
+        planet.setPosition(drawPosition);
         if (Keyboard::isKeyPressed(Keyboard::V))
             planet.setSize(Vector2f(100, 100));
         else
@@ -56,12 +61,13 @@ void Planet::draw(RenderWindow* window, double zoom)
     else
     {
         CircleShape planet;
-        planet.setPosition(Vector2f(x / zoom, y / zoom));
+        planet.setPointCount(1024);
+        planet.setPosition(drawPosition);
         planet.setRadius(drawSize);
         planet.setFillColor(color);
         window->draw(planet);
     }
-    std::cout << x / zoom << " " << y / zoom << ", r: " << drawSize << "\n";
+    //std::cout << x / zoom << " " << y / zoom << ", r: " << drawSize << "\n";
 }
 
 

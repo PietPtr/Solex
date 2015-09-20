@@ -45,4 +45,9 @@ class Game
         Sun sun;
 
         std::vector<Audio*> sfx;
+
+
+        //debug
+
+        float SPEED = 10e7;
 };

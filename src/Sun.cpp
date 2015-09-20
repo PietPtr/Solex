@@ -1,6 +1,10 @@
 #include "Sun.h"
 #include <iostream>
 
+using namespace sf;
+
+Vector2f globalToDrawCoords(Vector2i viewPos, Vector2i global, double zoom);
+
 Sun::Sun()
 {
     //ctor
@@ -14,21 +18,26 @@ void Sun::update(double simtime)
     }
 }
 
-void Sun::draw(RenderWindow* window, double zoom)
+void Sun::draw(DrawData drawData)
 {
+    RenderWindow* window = drawData.window;
+    double zoom = drawData.zoom;
+    Vector2i viewPos = drawData.viewPos;
+
+
     CircleShape temp;
     int r = radius / zoom;
     r = r < 2 ? 2 : r;
     temp.setRadius(r);
     temp.setPointCount(1024);
-    temp.setPosition(Vector2f(0, 0));
+    temp.setPosition(globalToDrawCoords(viewPos, Vector2i(0, 0), zoom));
     temp.setOrigin(Vector2f(r, r));
     temp.setFillColor(Color(200, 200, 0));
     window->draw(temp);
 
     for (int i = 0; i < planets.size(); i++)
     {
-        planets.at(i).draw(window, zoom);
+        planets.at(i).draw(window, zoom, viewPos);
     }
 }
 
