@@ -3,6 +3,7 @@
 #include "Audio.h"
 #include "Spaceship.h"
 #include "Planet.h"
+#include "Sun.h"
 
 using namespace sf;
 
@@ -17,7 +18,6 @@ class Game
 
         void loadAudio(std::vector<std::string> fileNames);
         void loadTextures();
-        void loadPlanets();
 
         int randint(int low, int high, int seed);
         int randint(int low, int high);
@@ -25,21 +25,24 @@ class Game
     private:
         RenderWindow* window;
         View view;
+        Vector2i viewPos { 0, 0 };
         int windowWidth = 1280;
         int windowHeight = 720;
+        double zoom = 57e4; //kilometers per pixel | km/px
 
         bool focus = true;
 
         Time dt;
         Time totalTime;
         double simtime;
-        int timeSpeed = 1;
+        double timeSpeed = 10;
         Clock clock;
         int frame = 0;
 
         std::vector<std::string> audioFileNames {};
         std::vector<Texture> textures {};
-        std::vector<Planet> planets {};
+
+        Sun sun;
 
         std::vector<Audio*> sfx;
 };

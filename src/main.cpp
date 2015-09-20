@@ -35,7 +35,16 @@ int randint(int low, int high, int seed)
 int randint(int low, int high)
 {
     int value = rand() % (high + 1 - low) + low;
-    //srand(totalTime.asMicroseconds() * value * rand());
+    srand(value * rand());
 
     return value;
+}
+
+Vector2f globalToDrawCoords(Vector2i viewPos, Vector2i global, double zoom)
+{
+    Vector2i difference = viewPos - global;
+    Vector2f drawCoords;
+    drawCoords.x = difference.x / zoom;
+    drawCoords.y = difference.y / zoom;
+
 }

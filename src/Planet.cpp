@@ -15,7 +15,7 @@ Planet::Planet(PlanetData data)
     orbitalPeriod = data.orbitalPeriod;
     x = 0;
     y = 0;
-    velocity = Vector2f(0, orbitalSpeed);
+    color = data.color;
 }
 
 void Planet::setData(PlanetData data)
@@ -31,27 +31,37 @@ void Planet::setData(PlanetData data)
 
 void Planet::update(double simtime)
 {
-    //x = A cos(wt + f)
-    //y = A sin(wt + f)
     int amplitude = (aphelion + perihelion) / 2;
     float angularFrequency = 2 * pi / orbitalPeriod;
 
     x = orbitCenter.x + amplitude * cos(angularFrequency * simtime);
     y = orbitCenter.y + amplitude * sin(angularFrequency * simtime);
-
-    std::cout << (int)(x / 10e4) << " " << (int)(y / 10e4) << "\n";
-    //std::cout << amplitude << "\n";
-    //std::cout << angularFrequency << "\n";
-
 }
 
-void Planet::draw(RenderWindow* window)
+void Planet::draw(RenderWindow* window, double zoom)
 {
-    CircleShape px;
-    px.setPosition(Vector2f(x / 50e4, y / 50e4));
-    px.setRadius(1);
-    px.setFillColor(Color(255, 255, 255));
-    window->draw(px);
+    double drawSize = radius / zoom; //draw size in pixels
+
+    if ((int)drawSize <= 1)
+    {
+        RectangleShape planet;
+        planet.setPosition(Vector2f(x / zoom, y / zoom));
+        if (Keyboard::isKeyPressed(Keyboard::V))
+            planet.setSize(Vector2f(100, 100));
+        else
+            planet.setSize(Vector2f(1, 1));
+        planet.setFillColor(color);
+        window->draw(planet);
+    }
+    else
+    {
+        CircleShape planet;
+        planet.setPosition(Vector2f(x / zoom, y / zoom));
+        planet.setRadius(drawSize);
+        planet.setFillColor(color);
+        window->draw(planet);
+    }
+    std::cout << x / zoom << " " << y / zoom << ", r: " << drawSize << "\n";
 }
 
 

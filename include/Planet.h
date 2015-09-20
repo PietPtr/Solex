@@ -5,6 +5,8 @@ const double pi = 3.1415926535897;
 
 using namespace sf;
 
+int randint(int low, int high);
+
 struct PlanetData
 {
     double mass;
@@ -16,6 +18,7 @@ struct PlanetData
     int orbitalPeriod;
     int x;
     int y;
+    Color color;
 };
 
 class Planet
@@ -24,7 +27,7 @@ class Planet
         Planet(PlanetData data);
         void setData(PlanetData data);
         void update(double simtime);
-        void draw(RenderWindow* window);
+        void draw(RenderWindow* window, double zoom);
     protected:
     private:                       // Mars example values
         double mass = 0;           // 641,710,000,000,000,000,000,000 kg
@@ -36,6 +39,7 @@ class Planet
         int orbitalPeriod = 0;     // 59,353,534 seconds
         int x = 0;                 // <-- position relative to the sun
         int y = 0;                 // <--/
+        Color color;
         Vector2f velocity;
 };
 
