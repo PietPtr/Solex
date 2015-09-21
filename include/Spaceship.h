@@ -9,7 +9,7 @@ class Spaceship
 {
     public:
         Spaceship();
-        void update(Time dt, std::vector<GravData>* gravData);
+        void update(double dsimTime, std::vector<GravData>* gravData);
         void draw(DrawData drawData);
         Vector2i getPosition() { return position; }
         void setPosition(Vector2i val) { position = val;};

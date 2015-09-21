@@ -36,9 +36,12 @@ void Planet::update(double simtime)
 {
     int amplitude = (aphelion + perihelion) / 2;
     float angularFrequency = 2 * pi / orbitalPeriod;
+    double t = simtime;
+    if (Keyboard::isKeyPressed(Keyboard::F3))
+        std::cout << angularFrequency * amplitude << "\n";
 
-    x = orbitCenter.x + amplitude * cos(angularFrequency * simtime);
-    y = orbitCenter.y + amplitude * sin(angularFrequency * simtime);
+    x = orbitCenter.x + amplitude * cos(angularFrequency * t);
+    y = orbitCenter.y + amplitude * sin(angularFrequency * t);
 }
 
 void Planet::draw(RenderWindow* window, double zoom, Vector2i viewPos)
