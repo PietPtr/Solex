@@ -73,6 +73,8 @@ void Sun::draw(DrawData drawData)
 
 void Sun::loadPlanets()
 {
+    // ---- Planets ----
+
     PlanetData mercuryData;
     mercuryData.mass = 3.3011e23;
     mercuryData.aphelion = 69816900;
@@ -125,9 +127,35 @@ void Sun::loadPlanets()
     moonData.perihelion = 362600;
     moonData.radius = 1737;
     moonData.orbitalPeriod = 2360584;
-    moonData.orbitCenter = Vector2i(0, 0);
     moonData.color = Color(160, 160, 160);
     moonData.orbitingPlanetIndex = 2;
     moons.push_back(Planet(moonData));
 
+    PlanetData phobosData;
+    phobosData.mass = 1.0659e16;
+    phobosData.aphelion = 9517;
+    phobosData.perihelion = 9234;
+    phobosData.radius = 11;
+    phobosData.orbitalPeriod = 27475;
+    phobosData.color = Color(160, 130, 130);
+    phobosData.orbitingPlanetIndex = 3;
+    moons.push_back(Planet(phobosData));
+
+    PlanetData deimosData;
+    deimosData.mass = 1.4762e15;
+    deimosData.aphelion = 23471;
+    deimosData.perihelion = 23455;
+    deimosData.radius = 6;
+    deimosData.orbitalPeriod = 109123;
+    deimosData.color = Color(80, 80, 80);
+    deimosData.orbitingPlanetIndex = 3;
+    moons.push_back(Planet(deimosData));
 }
+
+
+
+
+
+
+
+
