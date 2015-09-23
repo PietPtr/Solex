@@ -18,10 +18,11 @@ void Spaceship::update(double dt, std::vector<GravData>* gravData, bool focus)
     Vector2f Fgrav(0, 0);
     gravForces.clear();
 
+    float distance;
     for (int i = 0; i < gravData->size(); i++)
     {
         Vector2f planetGrav(0, 0);
-        float distance = sqrt(pow(position.x - gravData->at(i).x, 2) + pow(position.y - gravData->at(i).y, 2));
+        distance = sqrt(pow(position.x - gravData->at(i).x, 2) + pow(position.y - gravData->at(i).y, 2));
         double Fplanetgrav = -G * ((mass * gravData->at(i).mass) / (pow(distance, 2)));
         planetGrav.x = Fplanetgrav * (position.x - gravData->at(i).x) / distance;
         planetGrav.y = Fplanetgrav * (position.y - gravData->at(i).y) / distance;
@@ -65,16 +66,37 @@ void Spaceship::update(double dt, std::vector<GravData>* gravData, bool focus)
     newPos.y = position.y + velocity.y;
 
     bool collision = false;
+    int planetIndex = -1;
     for (int i = 0; i < gravData->size(); i++)
     {
         float newDistance = sqrt(pow(newPos.x - gravData->at(i).x, 2) + pow(newPos.y - gravData->at(i).y, 2));
         if (newDistance < gravData->at(i).radius)
         {
             collision = true;
-            velocity = gravData->at(i).velocity;
+            planetIndex = i;
+
+            velocity = gravData->at(planetIndex).velocity;
+            double distanceRadiusRatio = newDistance / gravData->at(planetIndex).radius;
+            if (distanceRadiusRatio < 1)
+            {
+                Vector2i adjustment;
+                Vector2i planetPos(gravData->at(planetIndex).x, gravData->at(planetIndex).y);
+                double adjustmentDistance = gravData->at(planetIndex).radius - newDistance;
+                adjustment.x = (planetPos.x - position.x) * (adjustmentDistance / newDistance);
+                adjustment.y = (planetPos.y - position.y) * (adjustmentDistance / newDistance);
+                position.x -= adjustment.x;
+                position.y -= adjustment.y;
+
+                //std::cout << adjustment.x << " " << adjustment.y << "\n";
+            }
         }
     }
-    std::cout << velocity.x << " " << velocity.y << "\n";
+
+    if (collision)
+    {
+        velocity = gravData->at(planetIndex).velocity;
+
+    }
 
     position.x += velocity.x;
     position.y += velocity.y;

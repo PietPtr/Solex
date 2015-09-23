@@ -21,6 +21,7 @@ struct PlanetData
     int x;
     int y;
     Color color;
+    int orbitingPlanetIndex = -1; //if this is a moon, what planet it is orbiting
 };
 
 

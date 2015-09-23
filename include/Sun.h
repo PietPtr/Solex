@@ -19,6 +19,7 @@ class Sun
         double mass = 1.98855e30;
         double radius = 696342;
         std::vector<Planet> planets {};
+        std::vector<Planet> moons {};
 };
 
 #endif // SUN_H

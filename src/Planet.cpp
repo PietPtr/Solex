@@ -21,6 +21,7 @@ Planet::Planet(PlanetData data)
     y = 0;
     color = data.color;
     phase = randint(0, orbitalPeriod);
+    orbitingPlanetIndex = data.orbitingPlanetIndex;
     std::cout << phase << "\n";
 }
 

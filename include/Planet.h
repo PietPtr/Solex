@@ -7,8 +7,6 @@ using namespace sf;
 
 int randint(int low, int high);
 
-
-
 class Planet
 {
     public:
@@ -20,6 +18,8 @@ class Planet
         double getMass() { return mass; }
         int getRadius() { return radius; }
         Vector2f getVelocity() { return velocity; }
+        void setOrbitCenter(Vector2i pos) { orbitCenter = pos; }
+        int  getOrbitingPlanet() { return orbitingPlanetIndex; }
     protected:
     private:                       // Mars example values
         double mass = 0;           // 641,710,000,000,000,000,000,000 kg
@@ -35,6 +35,7 @@ class Planet
         Color color;
         Vector2f velocity;
         Vector2i prevPos;
+        int orbitingPlanetIndex = -1;
 };
 
 #endif // PLANET_H
