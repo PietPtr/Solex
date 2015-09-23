@@ -112,7 +112,8 @@ void Spaceship::draw(DrawData drawData)
     {
         Sprite bigburn;
         bigburn.setTexture(textures->at(1));
-        bigburn.setOrigin(15, -33);
+        float burnY = 17 + (Joystick::getAxisPosition(0, Joystick::R) + 100) / 200 * 16;
+        bigburn.setOrigin(15, -burnY);
         bigburn.setPosition(Vector2f(-drawData.windowWidth / 2 + 72, -drawData.windowHeight / 2 + 72));
         bigburn.setRotation(rotation + 90);
         window->draw(bigburn);
