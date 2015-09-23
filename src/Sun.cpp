@@ -39,6 +39,14 @@ void Sun::update(double simtime, std::vector<GravData>* gravData, double timeSpe
         int orbitingPlanet = moons.at(i).getOrbitingPlanet();
         moons.at(i).setOrbitCenter(planets.at(orbitingPlanet).getPosition());
         moons.at(i).update(simtime, timeSpeed);
+
+        GravData moonGravitationData;
+        moonGravitationData.mass = moons.at(i).getMass();
+        moonGravitationData.x = moons.at(i).getPosition().x;
+        moonGravitationData.y = moons.at(i).getPosition().y;
+        moonGravitationData.radius = moons.at(i).getRadius();
+        moonGravitationData.velocity = moons.at(i).getVelocity();
+        gravData->push_back(moonGravitationData);
     }
 }
 
@@ -59,16 +67,17 @@ void Sun::draw(DrawData drawData)
     sun.setFillColor(Color(200, 200, 0));
     window->draw(sun);
 
+    for (int i = 0; i < moons.size(); i++)
+    {
+        moons.at(i).draw(window, zoom, viewPos);
+    }
 
     for (int i = 0; i < planets.size(); i++)
     {
         planets.at(i).draw(window, zoom, viewPos);
     }
 
-    for (int i = 0; i < moons.size(); i++)
-    {
-        moons.at(i).draw(window, zoom, viewPos);
-    }
+
 }
 
 void Sun::loadPlanets()
