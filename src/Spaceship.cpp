@@ -74,8 +74,7 @@ void Spaceship::update(double dt, std::vector<GravData>* gravData, bool focus)
             velocity = gravData->at(i).velocity;
         }
     }
-
-    //std::cout << gravData->at(3).velocity.x << " " << gravData->at(3).velocity.y << "\n";
+    std::cout << velocity.x << " " << velocity.y << "\n";
 
     position.x += velocity.x;
     position.y += velocity.y;
@@ -109,7 +108,7 @@ void Spaceship::draw(DrawData drawData)
     velo[1].color = Color::Red;
     window->draw(velo, 2, Lines);
 
-    if (Keyboard::isKeyPressed(Keyboard::Home))
+    if (Joystick::getAxisPosition(0, Joystick::R) > -100 + DEADZONE)
     {
         Sprite bigburn;
         bigburn.setTexture(textures->at(1));
@@ -126,7 +125,7 @@ void Spaceship::draw(DrawData drawData)
     ship.setOrigin(32, 64);
     window->draw(ship);
 
-    if (Keyboard::isKeyPressed(Keyboard::Delete))
+    if (Joystick::getAxisPosition(0, Joystick::X) < -DEADZONE)
     {
         Sprite smallburn;
         smallburn.setTexture(textures->at(2));
@@ -135,7 +134,7 @@ void Spaceship::draw(DrawData drawData)
         smallburn.setRotation(rotation + 90);
         window->draw(smallburn);
     }
-    if (Keyboard::isKeyPressed(Keyboard::PageDown))
+    if (Joystick::getAxisPosition(0, Joystick::X) >  DEADZONE)
     {
         Sprite smallburn;
         smallburn.setTexture(textures->at(2));

@@ -29,7 +29,7 @@ class Game
         Vector2i viewPos { 0, 25000000 };
         int windowWidth = 1280;
         int windowHeight = 720;
-        double zoom = pow(2, 18); //kilometers per pixel | km/px
+        double zoom = pow(2, 5); //kilometers per pixel | km/px
 
         bool focus = true;
 
