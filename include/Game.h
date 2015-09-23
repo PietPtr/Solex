@@ -26,16 +26,16 @@ class Game
     private:
         RenderWindow* window;
         View view;
-        Vector2i viewPos { 0, 0 };
+        Vector2i viewPos { 0, 25000000 };
         int windowWidth = 1280;
         int windowHeight = 720;
-        double zoom = 57e4; //kilometers per pixel | km/px
+        double zoom = pow(2, 18); //kilometers per pixel | km/px
 
         bool focus = true;
 
         Time dt;
         Time totalTime;
-        double simtime;
+        double simtime = 0;
         double timeSpeed = 16;
         Clock clock;
         int frame = 0;
@@ -49,7 +49,7 @@ class Game
 
         std::vector<Audio*> sfx;
 
-        Spaceship player;
+        Spaceship player { &textures };
 
         //debug
 

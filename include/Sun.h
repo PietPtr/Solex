@@ -11,7 +11,7 @@ class Sun
     public:
         Sun();
         void loadPlanets();
-        void update(double simtime, std::vector<GravData>* gravData);
+        void update(double simtime, std::vector<GravData>* gravData, double timeSpeed);
         void draw(DrawData drawData);
         std::vector<Planet>* getPlanets() { return &planets; }
     protected:

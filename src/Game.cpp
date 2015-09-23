@@ -71,6 +71,8 @@ void Game::update()
                 viewPos = sun.getPlanets()->at(2).getPosition();
             if (event.key.code == Keyboard::Num4)
                 viewPos = sun.getPlanets()->at(3).getPosition();
+            if (event.key.code == Keyboard::Space)
+                viewPos = player.getPosition();
         }
         if (event.type == Event::Resized)
         {
@@ -100,10 +102,10 @@ void Game::update()
     }
 
 
-    sun.update(simtime, &gravData);
-    if (frame == 1)
+    sun.update(simtime, &gravData, timeSpeed);
+    if (frame == 0)
         player.setPosition(sun.getPlanets()->at(2).getPosition() - Vector2i(0, 6372));
-    player.update(dt.asSeconds() * timeSpeed, &gravData);
+    player.update(dt.asSeconds() * timeSpeed, &gravData, focus);
 
     frame++;
 }
@@ -114,10 +116,13 @@ void Game::draw()
     drawData.window = window;
     drawData.zoom = zoom;
     drawData.viewPos = viewPos;
+    drawData.windowWidth = windowWidth;
+    drawData.windowHeight = windowHeight;
 
     if (!Keyboard::isKeyPressed(Keyboard::C))
         window->clear();
 
+    viewPos = player.getPosition();
     view.setSize(Vector2f(windowWidth, windowHeight));
     view.setCenter(Vector2f(0, 0));
     window->setView(view);

@@ -10,7 +10,7 @@ Sun::Sun()
     //ctor
 }
 
-void Sun::update(double simtime, std::vector<GravData>* gravData)
+void Sun::update(double simtime, std::vector<GravData>* gravData, double timeSpeed)
 {
     gravData->clear();
 
@@ -18,16 +18,19 @@ void Sun::update(double simtime, std::vector<GravData>* gravData)
     sunGravData.mass = mass;
     sunGravData.x = 0;
     sunGravData.y = 0;
+    sunGravData.radius = radius;
     gravData->push_back(sunGravData);
 
     for (int i = 0; i < planets.size(); i++)
     {
-        planets.at(i).update(simtime);
+        planets.at(i).update(simtime, timeSpeed);
 
         GravData planetGravitationData;
         planetGravitationData.mass = planets.at(i).getMass();
         planetGravitationData.x = planets.at(i).getPosition().x;
         planetGravitationData.y = planets.at(i).getPosition().y;
+        planetGravitationData.radius = planets.at(i).getRadius();
+        planetGravitationData.velocity = planets.at(i).getVelocity();
         gravData->push_back(planetGravitationData);
     }
 }
@@ -39,15 +42,15 @@ void Sun::draw(DrawData drawData)
     Vector2i viewPos = drawData.viewPos;
 
 
-    CircleShape temp;
+    CircleShape sun;
     int r = radius / zoom;
     r = r < 2 ? 2 : r;
-    temp.setRadius(r);
-    temp.setPointCount(1024);
-    temp.setPosition(globalToDrawCoords(viewPos, Vector2i(0, 0), zoom));
-    temp.setOrigin(Vector2f(r, r));
-    temp.setFillColor(Color(200, 200, 0));
-    window->draw(temp);
+    sun.setRadius(r);
+    sun.setPointCount(1024);
+    sun.setPosition(globalToDrawCoords(viewPos, Vector2i(0, 0), zoom));
+    sun.setOrigin(Vector2f(r, r));
+    sun.setFillColor(Color(200, 200, 0));
+    window->draw(sun);
 
 
     for (int i = 0; i < planets.size(); i++)
@@ -65,7 +68,7 @@ void Sun::loadPlanets()
     mercuryData.radius = 2439.7;
     mercuryData.orbitalSpeed = 47362;
     mercuryData.orbitCenter = Vector2i(9540000, 2650000);
-    mercuryData.orbitalPeriod = 3600;
+    mercuryData.orbitalPeriod = 7118256;
     mercuryData.color = Color(100, 100, 100);
     planets.push_back(Planet(mercuryData));
 
@@ -76,7 +79,7 @@ void Sun::loadPlanets()
     venusData.radius = 6051.8;
     venusData.orbitalSpeed = 35020;
     venusData.orbitCenter = Vector2i(0, 1590000);
-    venusData.orbitalPeriod = 9810;
+    venusData.orbitalPeriod = 19397246;
     venusData.color = Color(255, 255, 150);
     planets.push_back(Planet(venusData));
 
@@ -87,7 +90,7 @@ void Sun::loadPlanets()
     earthData.radius = 6371;
     earthData.orbitalSpeed = 29780;
     earthData.orbitCenter = Vector2i(0, 0);
-    earthData.orbitalPeriod = 15960;
+    earthData.orbitalPeriod = 365.25 * 86400;//15960;
     earthData.color = Color(150, 170, 255);
     planets.push_back(Planet(earthData));
 
@@ -98,7 +101,7 @@ void Sun::loadPlanets()
     marsData.radius = 3389;
     marsData.orbitalSpeed = 24077;
     marsData.orbitCenter = Vector2i(-9540000, 19080000);
-    marsData.orbitalPeriod = 30000;
+    marsData.orbitalPeriod = 59318796;//30000;
     marsData.color = Color(255, 200, 100);
     planets.push_back(Planet(marsData));
 
